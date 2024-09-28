@@ -1,0 +1,33 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:latest
+    ports:
+      - "5432:5432"    # Porta padrão do PostgreSQL
+    environment:
+      POSTGRES_USER: go_go_power_rangers     # Nome de usuário padrão
+      POSTGRES_PASSWORD: powerrangers # Senha do usuário
+      POSTGRES_DB: alameda     # Nome do banco de dados a ser criado
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+  activemq:
+    image: rmohr/activemq:latest
+    container_name: activemq
+    platform: linux/amd64  # Especifica a plataforma
+    ports:
+      - "8161:8161"  # Porta da interface web do ActiveMQ
+      - "61613:61613" # Porta para conexão com o broker
+    environment:
+      ACTIVEMQ_USER: admin         # Nome de usuário
+      ACTIVEMQ_PASSWORD: admin      # Senha
+      ACTIVEMQ_ADMIN_LOGIN: admin  # Usuário padrão
+      ACTIVEMQ_ADMIN_PASSWORD: admin  # Senha padrão
+      ACTIVEMQ_MIN_MEMORY: 512
+      ACTIVEMQ_MAX_MEMORY: 2048
+    volumes:
+      - activemq-data:/var/activemq
+
+volumes:
+  activemq-data:
+  postgres_data:
+
